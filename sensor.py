@@ -1,6 +1,6 @@
 class BME280Sensor:
     def __init__(self, iio_device_number: int = 0):
-        print('Initialisiere Sensor BME280')
+        print(f'Initialisiere Sensor BME280 mit Gerätenummer {iio_device_number}')
         self.base_path = f'/sys/bus/iio/devices/iio:device{iio_device_number}/'
 
     def read_float(self, filename: str):
