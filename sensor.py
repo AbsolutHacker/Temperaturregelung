@@ -19,3 +19,9 @@ class BME280Sensor:
 
     def destroy(self):
         pass
+
+
+class DummySensor(BME280Sensor):
+    def __init__(self):
+        print('Initialisiere Dummy-Sensor')
+        self.base_path = '/sensors/bme280/'

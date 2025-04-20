@@ -1,15 +1,15 @@
 import time
 import sensor as sensor_module
-from actuators import RelayActuator
+from actuators import DummyActuator
 import rules
 
 
 def main():
     print('Initialisiere Sensor...')
-    sensor = sensor_module.BME280Sensor()
+    sensor = sensor_module.DummySensor() #BME280Sensor()
 
     print('Initialisiere Aktoren...')
-    actuators = [ RelayActuator() ] #, ZigbeeActuator() ]
+    actuators = [ DummyActuator() ] # RelayActuator() ] #, ZigbeeActuator() ]
 
     # actuators are on per default
     last_actuator_on_state = True
