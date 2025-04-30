@@ -1,1 +1,1 @@
-from RelayActuator import RelayActuator
+from .RelayActuator import RelayActuator

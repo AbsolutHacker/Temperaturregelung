@@ -15,6 +15,7 @@ def main():
     actuators = [ RelayActuator() ] #, ZigbeeActuator() ]
 
     if len(sys.argv) > 1 and sys.argv[1] == '--csv':
+        log.LEVEL = log.INFO
         formatter = formatters.CSVFormatter()
     else:
         formatter = formatters.ConsoleFormatter()
