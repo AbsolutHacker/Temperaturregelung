@@ -1,28 +1,30 @@
 import time
 import sys
-import sensor as sensor_module
-from actuators import DummyActuator
+import sensors
+import actuators
 import rules
 import logging as log
 import formatters
 
 
 def main():
-    log.debug('Initialisiere Sensor...')
-    sensor = sensor_module.DummySensor() #BME280Sensor()
-
-    log.debug('Initialisiere Aktoren...')
-    actuators = [ DummyActuator() ] # RelayActuator() ] #, ZigbeeActuator() ]
 
     if len(sys.argv) > 1 and sys.argv[1] == '--csv':
+        log.LEVEL = log.INFO
         formatter = formatters.CSVFormatter()
     else:
         formatter = formatters.ConsoleFormatter()
 
+    log.debug('Initialisiere Sensor...')
+    sensor = sensors.DummySensor() #BME280Sensor()
+
+    log.debug('Initialisiere Aktoren...')
+    all_actuators = [ actuators.DummyActuator() ] # actuators.RelayActuator() ] #, actuators.ZigbeeActuator() ]
+
     # actuators are on per default
     last_actuator_on_state = True
     # switch once to ensure correct state
-    for actuator in actuators:
+    for actuator in all_actuators:
         actuator.set_state(not last_actuator_on_state)
 
     while True:
@@ -39,7 +41,7 @@ def main():
             switch_off = False
 
         if switch_off == last_actuator_on_state:
-            for actuator in actuators:
+            for actuator in all_actuators:
                 actuator.set_state(switch_off)
             last_actuator_on_state = not switch_off
 
@@ -47,7 +49,7 @@ def main():
             time.sleep(rules.interval_in_s)
         except KeyboardInterrupt:
             log.debug('Unterbrechung, schalte ab')
-            for actuator in actuators:
+            for actuator in all_actuators:
                 actuator.destroy()
             break
 
