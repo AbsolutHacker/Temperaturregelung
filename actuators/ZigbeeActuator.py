@@ -10,9 +10,8 @@ class ZigbeeActuator:
         self.client.connect("localhost", 1883, 60)
 
     def set_state(self, off: bool):
-        import json
         log.debug(f"ZigbeeAktor.schalte({'aus' if off else 'an'})")
-        payload = json.dumps({'state': 'OFF' if off else 'ON'})
+        payload = '{"state":"' + ('OFF' if off else 'ON') + '"}'
         self.client.publish(self.topic, payload)
 
     def destroy(self):

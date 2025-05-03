@@ -17,4 +17,5 @@ class RelayActuator:
         self.relay_line.set_value(1 if off else 0)
 
     def destroy(self):
+        log.debug("Vernichte Relais-Aktor")
         self.relay_line.release()
