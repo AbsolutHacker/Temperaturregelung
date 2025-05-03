@@ -3,7 +3,7 @@ import sys
 import sensors
 import actuators
 import rules
-import logging as log
+import log
 import formatters
 
 

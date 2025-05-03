@@ -1,4 +1,4 @@
-import logging as log
+import log
 
 
 class BME280Sensor:
