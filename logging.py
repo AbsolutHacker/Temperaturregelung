@@ -19,4 +19,6 @@ def info(msg):
 
 
 def warn(msg):
-    log(WARN, '[WARN] ' + msg)
+    if WARN >= LEVEL:
+        import sys
+        print('[WARN] ' + msg, file=sys.stderr)
