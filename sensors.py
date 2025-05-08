@@ -9,13 +9,13 @@ class BME280Sensor:
     def read_float(self, filename: str):
         with open(self.base_path + filename, 'r') as file:
             temp_string = file.read().replace('\n', '')
-            return float(temp_string)
+            return float(temp_string) / 1_000
 
     def read_temperature(self) -> float:
         return self.read_float('in_temp_input')
 
     def read_pressure(self) -> float:
-        return self.read_float('in_pressure_input')
+        return self.read_float('in_pressure_input') * 10_000
 
     def read_humidity(self) -> float:
         return self.read_float('in_humidityrelative_input')

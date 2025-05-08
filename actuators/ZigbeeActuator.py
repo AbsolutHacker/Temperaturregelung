@@ -4,7 +4,7 @@ import log
 class ZigbeeActuator:
     def __init__(self, device_name: str = 'steckdose'):
         import paho.mqtt.client as mqtt
-        log.debug(f'Initialisiere Zigbee-Aktor')
+        log.debug(f"Initialisiere Zigbee-Aktor für Gerät '{device_name}'")
         self.topic = f"zigbee2mqtt/{device_name}/set"
         self.client = mqtt.Client()
         self.client.connect("localhost", 1883, 60)
