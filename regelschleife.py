@@ -3,7 +3,7 @@ import sys
 import sensors
 import actuators
 import rules
-import logging as log
+import log
 import formatters
 
 
@@ -11,9 +11,14 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == '--csv':
         log.LEVEL = log.INFO
-        formatter = formatters.CSVFormatter()
+        if len(sys.argv) > 2:
+            csv_writer = formatters.CSVWriter(sys.argv[2])
+        else:
+            csv_writer = formatters.CSVWriter()
     else:
-        formatter = formatters.ConsoleFormatter()
+        csv_writer = formatters.NullWriter()
+
+    console_formatter = formatters.ConsoleFormatter()
 
     log.debug('Initialisiere Sensor...')
     sensor = sensors.DummySensor() #BME280Sensor()
@@ -33,7 +38,9 @@ def main():
             humidity = sensor.read_humidity()
             pressure = sensor.read_pressure()
             datetime = time.localtime()
-            log.info(formatter.format(datetime, temperature, humidity, pressure))
+            log.info(console_formatter.format(datetime, temperature, humidity, pressure))
+            csv_writer.print(datetime, temperature, humidity, pressure)
+
             switch_off = rules.should_switch_off_for_temp(temperature)
         except Exception as exception:
             log.warn(f'Fehler beim Auslesen des Sensors: {exception}')
@@ -51,6 +58,7 @@ def main():
             log.debug('Unterbrechung, schalte ab')
             for actuator in all_actuators:
                 actuator.destroy()
+            csv_writer.destroy()
             break
 
 

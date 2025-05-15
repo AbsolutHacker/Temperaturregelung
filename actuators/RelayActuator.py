@@ -1,4 +1,4 @@
-import logging as log
+import log
 import gpiod
 
 
@@ -14,7 +14,9 @@ class RelayActuator:
 
     def set_state(self, off):
         log.debug(f"RelaisAktor.schalte({'aus' if off else 'an'})")
-        self.relay_line.set_value(1 if off else 0)
+        # relay is configured as connector, so 1 means on
+        self.relay_line.set_value(0 if off else 1)
 
     def destroy(self):
+        log.debug("Vernichte Relais-Aktor")
         self.relay_line.release()

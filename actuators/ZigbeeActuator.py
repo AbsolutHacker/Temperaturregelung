@@ -1,13 +1,19 @@
-import logging as log
-import zigpy
+import log
 
 
 class ZigbeeActuator:
-    def __init__(self):
-        log.debug(f'Initialisiere Zigbee-Aktor')
+    def __init__(self, device_name: str = 'steckdose'):
+        import paho.mqtt.client as mqtt
+        log.debug(f"Initialisiere Zigbee-Aktor für Gerät '{device_name}'")
+        self.topic = f"zigbee2mqtt/{device_name}/set"
+        self.client = mqtt.Client()
+        self.client.connect("localhost", 1883, 60)
 
-    def set_state(self, off):
+    def set_state(self, off: bool):
         log.debug(f"ZigbeeAktor.schalte({'aus' if off else 'an'})")
+        payload = '{"state":"' + ('OFF' if off else 'ON') + '"}'
+        self.client.publish(self.topic, payload)
 
     def destroy(self):
-        pass
+        log.debug("Vernichte Zigbee-Aktor")
+        self.client.disconnect()
