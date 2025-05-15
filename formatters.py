@@ -49,6 +49,24 @@ Taupunkt:\t{dew_point:.2f} °C
         return result
 
 
-class CSVFormatter:
-    def format(self, datetime, temperature, relative_humidity, pressure):
-        return f"{time.strftime('%Y-%m-%d %H:%M:%S', datetime)};{temperature};{relative_humidity};{pressure}"
+class CSVWriter:
+    def __init__(self, outfile_path: str = 'sensor_data.csv'):
+        import csv
+        self.file = open(outfile_path, 'w', newline='')
+        self.writer = csv.writer(self.file)
+        self.writer.writerow(['datetime', 'temperature', 'relative_humidity', 'pressure'])
+
+    def print(self, datetime, temperature, relative_humidity, pressure):
+        self.writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S', datetime), temperature, relative_humidity, pressure])
+
+    def destroy(self):
+        self.writer = None
+        self.file.close()
+
+
+class NullWriter:
+    def print(self, datetime, temperature, relative_humidity, pressure):
+        pass
+
+    def destroy(self):
+        pass
