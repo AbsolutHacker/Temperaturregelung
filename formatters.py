@@ -52,12 +52,13 @@ Taupunkt:\t{dew_point:.2f} °C
 class CSVWriter:
     def __init__(self, outfile_path: str = 'sensor_data.csv'):
         import csv
-        self.file = open(outfile_path, 'w', newline='')
-        self.writer = csv.writer(self.file)
-        self.writer.writerow(['datetime', 'temperature', 'relative_humidity', 'pressure'])
+        self.file = open(outfile_path, 'w', newline='', encoding='utf-8')
+        self.writer = csv.writer(self.file, delimiter=';')
+        self.writer.writerow(['Zeitstempel', 'Temperatur', 'Relative Feuchte', 'Luftdruck'])
 
     def print(self, datetime, temperature, relative_humidity, pressure):
         self.writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S', datetime), temperature, relative_humidity, pressure])
+        self.file.flush()
 
     def destroy(self):
         self.writer = None
