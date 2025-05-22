@@ -10,7 +10,7 @@ class RelayActuator:
         log.debug(f'Initialisiere Relais-Aktor auf GPIO-PIN {out_pin}')
         chip = gpiod.Chip('gpiochip4')
         self.relay_line = chip.get_line(out_pin)
-        self.relay_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
+        self.relay_line.request(consumer="Relay", type=gpiod.LINE_REQ_DIR_OUT)
 
     def set_state(self, off):
         log.debug(f"RelaisAktor.schalte({'aus' if off else 'an'})")
